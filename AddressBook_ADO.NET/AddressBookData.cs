@@ -395,5 +395,17 @@ namespace AddressBook_ADO.NET
                 Console.WriteLine(e.Message);
             }
         }
+
+
+        //Add AddressBookName and Type as Columns
+        public void AddAddressBookNameAndType()
+        {
+            SqlConnection Connection = new SqlConnection(@"Data Source=LAPTOP-7SFIPVKT; Initial Catalog =AddressBookForADO; Integrated Security = True;");
+            connection.Open();
+            string query = @"alter table AddressBook add AddressBookName Varchar(50), AddressBookType Varchar(50);";
+            SqlCommand command = new SqlCommand(query, connection);
+            object res = command.ExecuteScalar();
+            connection.Close();
+        }
     }
 }

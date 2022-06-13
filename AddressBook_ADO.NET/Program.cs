@@ -9,7 +9,7 @@ AddressBookModel addressbook = new AddressBookModel();
 
 
 Console.WriteLine("Select option\n1)Create AddrssBookServiceDatabase\n2)Create AddressBookTable\n3)Inserting Details to DataBase\n4)retreiv Details From dataBase\n6)Update Contacts\n7)" +
-    "Delete Contacts from DataBase\n8)Count By City/State\n9)Retreive Details By State\n10)Retreive Details By City\n11)Sort Details By FirstName for given City");
+    "Delete Contacts from DataBase\n8)Count By City/State\n9)Retreive Details By State\n10)Retreive Details By City\n11)Sort Details By FirstName for given City\n12)Added columns AddressBook Name and Type to AddressBook Table");
 int op = Convert.ToInt16(Console.ReadLine());
 switch (op)
 {
@@ -75,6 +75,10 @@ switch (op)
     case 11:
         Console.WriteLine("Get Contacts for given City sorted by FirstName");
         addressBookData.GetAllContacsSortByName();
+        break;
+    case 12:
+        Console.WriteLine("Adding Columns AddressBookName and AddressBookType to AddressBook Table");
+        addressBookData.AddAddressBookNameAndType();
         break;
     default:
         Console.WriteLine("Please choose the correct option!");
