@@ -473,5 +473,18 @@ namespace AddressBook_ADO.NET
             int Count = (int)res;
             return Count;
         }
+
+
+        //UC_11_Adding a Person to Both Friend and Family Type
+        public void AddContactAsFriendAndFamily()
+        {
+            SqlConnection Connection = new SqlConnection(@"Data Source=LAPTOP-7SFIPVKT; Initial Catalog =AddressBookForADO; Integrated Security = True;");
+            connection.Open();
+            string query = @"Insert into AddressBook Values ('krishna','Mounica','GDVL','NSTATION','Andhra Pradesh','520012','121413711821','Mouni@gmail.com','School','Friend'),
+                            ('krishna','Mounica','GDVL','NSTATION','Andhra Pradesh','520012','121413711821','Mouni@gmail.com','Family','Sister');";
+            SqlCommand command = new SqlCommand(query, connection);
+            object res = command.ExecuteScalar();
+            connection.Close();
+        }
     }
 }

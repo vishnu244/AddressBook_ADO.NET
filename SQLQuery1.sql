@@ -12,6 +12,10 @@ update AddressBook set AddressBookName ='Self',AddressBookType='Self' where ID=1
 update AddressBook set AddressBookName ='Relative',AddressBookType='Cousin' where ID=2; 
 update AddressBook set AddressBookName ='Profession',AddressBookType='Colleague' where ID=4; 
 update AddressBook set AddressBookName ='School',AddressBookType='Friend' where ID=5; 
+
+DELETE FROM AddressBook WHERE id=7;
+DELETE FROM AddressBook WHERE id=8;
+
 select * from AddressBook
 ------------------------------------------------------------------------------------------
 

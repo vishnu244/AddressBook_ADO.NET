@@ -88,6 +88,10 @@ switch (op)
         int countByType = addressBookData.CountOfEmployeeDetailsByType();
         Console.WriteLine("Count of Records by Type Colleague :" + countByType);
         break;
+    case 15:
+        addressBookData.AddContactAsFriendAndFamily();
+        Console.WriteLine("Added Contact to both Family and Friend");
+        break;
     default:
         Console.WriteLine("Please choose the correct option!");
         break;
