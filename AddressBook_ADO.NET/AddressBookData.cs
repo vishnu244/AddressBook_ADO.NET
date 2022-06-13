@@ -10,7 +10,7 @@ namespace AddressBook_ADO.NET
 {
     public class AddressBookData
     {
-        public  void Create_Database()
+        public void Create_Database()
         {
             try
             {
@@ -69,7 +69,7 @@ namespace AddressBook_ADO.NET
                     cmd.Parameters.AddWithValue("@Zip", model.Zip);
                     cmd.Parameters.AddWithValue("@PhoneNumber", model.PhoneNumber);
                     cmd.Parameters.AddWithValue("@Email", model.Email);
-                    
+
 
                     this.connection.Open();
 
@@ -86,12 +86,12 @@ namespace AddressBook_ADO.NET
             {
                 Console.WriteLine(e.Message);
             }
-            
+
             return false;
         }
 
         /// Fetching all data from Database
-        
+
         public void GetAllContact()
         {
             try
@@ -107,7 +107,7 @@ namespace AddressBook_ADO.NET
                     {
                         while (datareader.Read())
                         {
-                            addressmodel.AddressBookId = datareader.GetInt32(0);
+                            addressmodel.ID = datareader.GetInt32(0);
                             addressmodel.FirstName = datareader.GetString(1);
                             addressmodel.LastName = datareader.GetString(2);
                             addressmodel.Address = datareader.GetString(3);
@@ -116,7 +116,7 @@ namespace AddressBook_ADO.NET
                             addressmodel.Zip = datareader.GetString(6);
                             addressmodel.PhoneNumber = datareader.GetString(7);
                             addressmodel.Email = datareader.GetString(8);
-                            
+
                             Console.WriteLine(addressmodel.FirstName + " " +
                                 addressmodel.LastName + " " +
                                 addressmodel.Address + " " +
@@ -124,8 +124,8 @@ namespace AddressBook_ADO.NET
                                 addressmodel.State + " " +
                                 addressmodel.Zip + " " +
                                 addressmodel.PhoneNumber + " " +
-                                addressmodel.Email + " " 
-                               
+                                addressmodel.Email + " "
+
                                 );
                             Console.WriteLine();
 
@@ -137,6 +137,354 @@ namespace AddressBook_ADO.NET
             {
                 Console.WriteLine(e.Message);
             }
+        }
+
+
+        //update contacts
+        // reference method (Reference for Update Contact / No Proper output)
+        public bool UpdateContact(AddressBookModel model)
+        {
+            try
+            {
+                SqlConnection Connection = new SqlConnection(@"Data Source=LAPTOP-7SFIPVKT; Initial Catalog =AddressBookForADO; Integrated Security = True;");
+
+                using (this.connection)
+                {
+                    SqlCommand cmd = new SqlCommand("SpAddressBookEditUpdate", this.connection);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@FirstName", model.FirstName);
+                    cmd.Parameters.AddWithValue("@LastName", model.LastName);
+                    cmd.Parameters.AddWithValue("@Address", model.Address);
+                    cmd.Parameters.AddWithValue("@City", model.City);
+                    cmd.Parameters.AddWithValue("@State", model.State);
+                    cmd.Parameters.AddWithValue("@Zip", model.Zip);
+                    cmd.Parameters.AddWithValue("@PhoneNumber", model.PhoneNumber);
+                    cmd.Parameters.AddWithValue("@Email", model.Email);
+                    this.connection.Open();
+                    var result = cmd.ExecuteNonQuery();
+                    this.connection.Close();
+                    if (result != 0)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                this.connection.Close();
+            }
+            return false;
+        }
+        // method to Update detail of already existing details
+        public string updateEmployeeDetails()
+        {
+            AddressBookModel addressmodel = new AddressBookModel();
+
+            SqlConnection Connection = new SqlConnection(@"Data Source=LAPTOP-7SFIPVKT; Initial Catalog =AddressBookForADO; Integrated Security = True;");
+            connection.Open();
+            SqlCommand command = new SqlCommand("update AddressBook set Address='XYZ Colony' where FirstName='Shravanthi'", connection);
+
+            int effectedRow = command.ExecuteNonQuery();
+            if (effectedRow == 1)
+            {
+                string query = @"Select Address from AddressBook where FirstName='Shravanthi';";
+                SqlCommand cmd = new SqlCommand(query, connection);
+                object res = cmd.ExecuteScalar();
+                connection.Close();
+                addressmodel.Address = (string)res;
+            }
+            connection.Close();
+            return (addressmodel.Address);
+
+        }
+
+        public bool DeleteContact(AddressBookModel model)
+        {
+            try
+            {
+                using (this.connection)
+                {
+                    SqlCommand cmd = new SqlCommand("SpAddressBook_Delete", this.connection);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@FirstName", model.FirstName);
+                    this.connection.Open();
+                    var result = cmd.ExecuteNonQuery();
+                    this.connection.Close();
+                    if (result != 0)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                this.connection.Close();
+            }
+            return false;
+        }
+
+
+        //UC7-Size of AddressBook
+        public int CountOfEmployeeDetailsByCity()
+        {
+            int count;
+            SqlConnection Connection = new SqlConnection(@"Data Source=LAPTOP-7SFIPVKT; Initial Catalog =AddressBookForADO; Integrated Security = True;");
+            connection.Open();
+            string query = @"Select count(*) from AddressBook where City='Guntur';";
+            SqlCommand command = new SqlCommand(query, connection);
+            object res = command.ExecuteScalar();
+            connection.Close();
+            int Count = (int)res;
+            return Count;
+        }
+        public int CountOfEmployeeDetailsByState()
+        {
+            int count;
+            SqlConnection Connection = new SqlConnection(@"Data Source=LAPTOP-7SFIPVKT; Initial Catalog =AddressBookForADO; Integrated Security = True;");
+            connection.Open();
+            string query = @"Select count(*) from AddressBook where State='Andhra Pradesh';";
+            SqlCommand command = new SqlCommand(query, connection);
+            object res = command.ExecuteScalar();
+            connection.Close();
+            int Count = (int)res;
+            return Count;
+        }
+
+
+        public void GetAllContactByState()
+        {
+            try
+            {
+                AddressBookModel addressmodel = new AddressBookModel();
+                SqlConnection Connection = new SqlConnection(@"Data Source=LAPTOP-7SFIPVKT; Initial Catalog =AddressBookForADO; Integrated Security = True;");
+                using (this.connection)
+                {
+                    string Query = @"Select * from AddressBook where State='Andhra Pradesh';";
+                    SqlCommand cmd = new SqlCommand(Query, this.connection);
+                    this.connection.Open();
+                    SqlDataReader datareader = cmd.ExecuteReader();
+                    if (datareader.HasRows)
+                    {
+                        while (datareader.Read())
+                        {
+                            addressmodel.ID = datareader.GetInt32(0);
+                            addressmodel.FirstName = datareader.GetString(1);
+                            addressmodel.LastName = datareader.GetString(2);
+                            addressmodel.Address = datareader.GetString(3);
+                            addressmodel.City = datareader.GetString(4);
+                            addressmodel.State = datareader.GetString(5);
+                            addressmodel.Zip = datareader.GetString(6);
+                            addressmodel.PhoneNumber = datareader.GetString(7);
+                            addressmodel.Email = datareader.GetString(8);
+
+                            Console.WriteLine(addressmodel.FirstName + " " +
+                                addressmodel.LastName + " " +
+                                addressmodel.Address + " " +
+                                addressmodel.City + " " +
+                                addressmodel.State + " " +
+                                addressmodel.Zip + " " +
+                                addressmodel.PhoneNumber + " " +
+                                addressmodel.Email + " "
+                                );
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+        public void GetAllContactByCity()
+        {
+            try
+            {
+                AddressBookModel addressmodel = new AddressBookModel();
+                SqlConnection Connection = new SqlConnection(@"Data Source=LAPTOP-7SFIPVKT; Initial Catalog =AddressBookForADO; Integrated Security = True;");
+                using (this.connection)
+                {
+                    string Query = @"Select * from AddressBook where City='Hyderabad';";
+                    SqlCommand cmd = new SqlCommand(Query, this.connection);
+                    this.connection.Open();
+                    SqlDataReader datareader = cmd.ExecuteReader();
+                    if (datareader.HasRows)
+                    {
+                        while (datareader.Read())
+                        {
+                            addressmodel.ID = datareader.GetInt32(0);
+                            addressmodel.FirstName = datareader.GetString(1);
+                            addressmodel.LastName = datareader.GetString(2);
+                            addressmodel.Address = datareader.GetString(3);
+                            addressmodel.City = datareader.GetString(4);
+                            addressmodel.State = datareader.GetString(5);
+                            addressmodel.Zip = datareader.GetString(6);
+                            addressmodel.PhoneNumber = datareader.GetString(7);
+                            addressmodel.Email = datareader.GetString(8);
+
+                            Console.WriteLine(addressmodel.FirstName + " " +
+                                addressmodel.LastName + " " +
+                                addressmodel.Address + " " +
+                                addressmodel.City + " " +
+                                addressmodel.State + " " +
+                                addressmodel.Zip + " " +
+                                addressmodel.PhoneNumber + " " +
+                                addressmodel.Email + " "
+                                );
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
+
+        public void GetAllContacsSortByName()
+        {
+            try
+            {
+                AddressBookModel addressmodel = new AddressBookModel();
+                SqlConnection Connection = new SqlConnection(@"Data Source=LAPTOP-7SFIPVKT; Initial Catalog =AddressBookForADO; Integrated Security = True;");
+                using (this.connection)
+                {
+                    string Query = @"Select * from AddressBook where City='Vijayawada' order by FirstName;";
+                    SqlCommand cmd = new SqlCommand(Query, this.connection);
+                    this.connection.Open();
+                    SqlDataReader datareader = cmd.ExecuteReader();
+                    if (datareader.HasRows)
+                    {
+                        while (datareader.Read())
+                        {
+                            addressmodel.ID = datareader.GetInt32(0);
+                            addressmodel.FirstName = datareader.GetString(1);
+                            addressmodel.LastName = datareader.GetString(2);
+                            addressmodel.Address = datareader.GetString(3);
+                            addressmodel.City = datareader.GetString(4);
+                            addressmodel.State = datareader.GetString(5);
+                            addressmodel.Zip = datareader.GetString(6);
+                            addressmodel.PhoneNumber = datareader.GetString(7);
+                            addressmodel.Email = datareader.GetString(8);
+
+                            Console.WriteLine(addressmodel.FirstName + " " +
+                                addressmodel.LastName + " " +
+                                addressmodel.Address + " " +
+                                addressmodel.City + " " +
+                                addressmodel.State + " " +
+                                addressmodel.Zip + " " +
+                                addressmodel.PhoneNumber + " " +
+                                addressmodel.Email + " "
+                                );
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
+
+        //Add AddressBookName and Type as Columns
+        public void AddAddressBookNameAndType()
+        {
+            SqlConnection Connection = new SqlConnection(@"Data Source=LAPTOP-7SFIPVKT; Initial Catalog =AddressBookForADO; Integrated Security = True;");
+            connection.Open();
+            string query = @"alter table AddressBook add AddressBookName Varchar(50), AddressBookType Varchar(50);";
+            SqlCommand command = new SqlCommand(query, connection);
+            object res = command.ExecuteScalar();
+            connection.Close();
+        }
+
+
+        //UC_10 Get Number of contacts by AddressBook Type First displayed contact details by Addressbook Type
+        public void GetContactsBYAddressBookType()
+        {
+            try
+            {
+                AddressBookModel addressmodel = new AddressBookModel();
+                SqlConnection Connection = new SqlConnection(@"Data Source=LAPTOP-7SFIPVKT; Initial Catalog =AddressBookForADO; Integrated Security = True;");
+                using (this.connection)
+                {
+                    string Query = @"Select * from AddressBook where AddressBookType='Friend';";
+                    SqlCommand cmd = new SqlCommand(Query, this.connection);
+                    this.connection.Open();
+                    SqlDataReader datareader = cmd.ExecuteReader();
+                    if (datareader.HasRows)
+                    {
+                        while (datareader.Read())
+                        {
+                            addressmodel.ID = datareader.GetInt32(0);
+                            addressmodel.FirstName = datareader.GetString(1);
+                            addressmodel.LastName = datareader.GetString(2);
+                            addressmodel.Address = datareader.GetString(3);
+                            addressmodel.City = datareader.GetString(4);
+                            addressmodel.State = datareader.GetString(5);
+                            addressmodel.Zip = datareader.GetString(6);
+                            addressmodel.PhoneNumber = datareader.GetString(7);
+                            addressmodel.Email = datareader.GetString(8);
+                            addressmodel.AddressBookName = datareader.GetString(9);
+                            addressmodel.AddressBookType = datareader.GetString(10);
+
+                            Console.WriteLine(addressmodel.FirstName + " " +
+                                addressmodel.LastName + " " +
+                                addressmodel.Address + " " +
+                                addressmodel.City + " " +
+                                addressmodel.State + " " +
+                                addressmodel.Zip + " " +
+                                addressmodel.PhoneNumber + " " +
+                                addressmodel.Email + " " +
+                                addressmodel.AddressBookName + " " +
+                                addressmodel.AddressBookType + " "
+
+                                );
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        //Count Records by AddressBookType
+        public int CountOfEmployeeDetailsByType()
+        {
+            int count;
+            SqlConnection Connection = new SqlConnection(@"Data Source=LAPTOP-7SFIPVKT; Initial Catalog =AddressBookForADO; Integrated Security = True;");
+            connection.Open();
+            string Query = @"Select count(*) from AddressBook where AddressBookType='Colleague';";
+            SqlCommand command = new SqlCommand(Query, connection);
+            object res = command.ExecuteScalar();
+            connection.Close();
+            int Count = (int)res;
+            return Count;
+        }
+
+
+        //UC_11_Adding a Person to Both Friend and Family Type
+        public void AddContactAsFriendAndFamily()
+        {
+            SqlConnection Connection = new SqlConnection(@"Data Source=LAPTOP-7SFIPVKT; Initial Catalog =AddressBookForADO; Integrated Security = True;");
+            connection.Open();
+            string query = @"Insert into AddressBook Values ('krishna','Mounica','GDVL','NSTATION','Andhra Pradesh','520012','121413711821','Mouni@gmail.com','School','Friend'),
+                            ('krishna','Mounica','GDVL','NSTATION','Andhra Pradesh','520012','121413711821','Mouni@gmail.com','Family','Sister');";
+            SqlCommand command = new SqlCommand(query, connection);
+            object res = command.ExecuteScalar();
+            connection.Close();
         }
     }
 }
