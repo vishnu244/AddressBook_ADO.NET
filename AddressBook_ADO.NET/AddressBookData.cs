@@ -349,5 +349,51 @@ namespace AddressBook_ADO.NET
                 Console.WriteLine(e.Message);
             }
         }
+
+
+        public void GetAllContacsSortByName()
+        {
+            try
+            {
+                AddressBookModel addressmodel = new AddressBookModel();
+                SqlConnection Connection = new SqlConnection(@"Data Source=LAPTOP-7SFIPVKT; Initial Catalog =AddressBookForADO; Integrated Security = True;");
+                using (this.connection)
+                {
+                    string Query = @"Select * from AddressBook where City='Vijayawada' order by FirstName;";
+                    SqlCommand cmd = new SqlCommand(Query, this.connection);
+                    this.connection.Open();
+                    SqlDataReader datareader = cmd.ExecuteReader();
+                    if (datareader.HasRows)
+                    {
+                        while (datareader.Read())
+                        {
+                            addressmodel.AddressBookId = datareader.GetInt32(0);
+                            addressmodel.FirstName = datareader.GetString(1);
+                            addressmodel.LastName = datareader.GetString(2);
+                            addressmodel.Address = datareader.GetString(3);
+                            addressmodel.City = datareader.GetString(4);
+                            addressmodel.State = datareader.GetString(5);
+                            addressmodel.Zip = datareader.GetString(6);
+                            addressmodel.PhoneNumber = datareader.GetString(7);
+                            addressmodel.Email = datareader.GetString(8);
+
+                            Console.WriteLine(addressmodel.FirstName + " " +
+                                addressmodel.LastName + " " +
+                                addressmodel.Address + " " +
+                                addressmodel.City + " " +
+                                addressmodel.State + " " +
+                                addressmodel.Zip + " " +
+                                addressmodel.PhoneNumber + " " +
+                                addressmodel.Email + " "
+                                );
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
     }
 }

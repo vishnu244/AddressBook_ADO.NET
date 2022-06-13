@@ -8,7 +8,8 @@ AddressBookData addressBookData = new AddressBookData();
 AddressBookModel addressbook = new AddressBookModel();
 
 
-Console.WriteLine("Select option\n1)Create AddrssBookServiceDatabase\n2)Create AddressBookTable\n3)Inserting Details to DataBase\n4)retreiv Details From dataBase\n6)Update Contacts\n7)Delete Contacts from DataBase\n8)Count By City/State\n9)Retreive Details By State\n10)Retreive Details By City");
+Console.WriteLine("Select option\n1)Create AddrssBookServiceDatabase\n2)Create AddressBookTable\n3)Inserting Details to DataBase\n4)retreiv Details From dataBase\n6)Update Contacts\n7)" +
+    "Delete Contacts from DataBase\n8)Count By City/State\n9)Retreive Details By State\n10)Retreive Details By City\n11)Sort Details By FirstName for given City");
 int op = Convert.ToInt16(Console.ReadLine());
 switch (op)
 {
@@ -70,6 +71,10 @@ switch (op)
     case 10:
         Console.WriteLine("Get Contacts by City name");
         addressBookData.GetAllContactByCity();
+        break;
+    case 11:
+        Console.WriteLine("Get Contacts for given City sorted by FirstName");
+        addressBookData.GetAllContacsSortByName();
         break;
     default:
         Console.WriteLine("Please choose the correct option!");
