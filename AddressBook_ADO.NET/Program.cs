@@ -55,7 +55,12 @@ switch (op)
         addressbook.FirstName = "Raju";
         addressBookData.DeleteContact(addressbook);
         Console.WriteLine("Record deleated successfully");
-
+        break;
+    case 8:
+        int countCity = addressBookData.CountOfEmployeeDetailsByCity();
+        Console.WriteLine("Count of Records for given City :" + countCity);
+        int CountState = addressBookData.CountOfEmployeeDetailsByState();
+        Console.WriteLine("Count of Records for given State :" + CountState);
         break;
     default:
         Console.WriteLine("Please choose the correct option!");
