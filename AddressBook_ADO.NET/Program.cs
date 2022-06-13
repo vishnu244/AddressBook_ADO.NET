@@ -5,9 +5,10 @@ Console.WriteLine("Welcomw to AddressBook ADO.NET!");
 
 
 AddressBookData addressBookData = new AddressBookData();
+AddressBookModel addressbook = new AddressBookModel();
 
 
-Console.WriteLine("Select option\n1)Create AddrssBookServiceDatabase\n2)Create AddressBookTable\n3)Inserting Details to DataBase\n4)retreiv Details From dataBase\n6)Update Contacts");
+Console.WriteLine("Select option\n1)Create AddrssBookServiceDatabase\n2)Create AddressBookTable\n3)Inserting Details to DataBase\n4)retreiv Details From dataBase\n6)Update Contacts\n7)Delete Contacts from DataBase");
 int op = Convert.ToInt16(Console.ReadLine());
 switch (op)
 {
@@ -18,7 +19,6 @@ switch (op)
         addressBookData.CreateTables();
         break;
     case 3:
-        AddressBookModel addressbook = new AddressBookModel();
         addressbook.FirstName = "Vishnu";
         addressbook.LastName = "Vardhan";
         addressbook.Address = "Kanuru";
@@ -46,11 +46,15 @@ switch (op)
 
         addressBookData.UpdateContact(addressbook1);
         break;
-    case 6:
-        
+    case 6:       
         string UpdatedAddress = addressBookData.updateEmployeeDetails();
         Console.WriteLine(UpdatedAddress);
         Console.WriteLine("Record Updated successfully");
+        break;
+    case 7:
+        addressbook.FirstName = "Raju";
+        addressBookData.DeleteContact(addressbook);
+        Console.WriteLine("Record deleated successfully");
 
         break;
     default:
