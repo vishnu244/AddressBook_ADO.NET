@@ -234,5 +234,185 @@ namespace AddressBook_ADO.NET
             }
         }
 
+
+        //uc13
+        public void GetContactsBasedOnCityStateByJoins()
+        {
+
+            try
+            {
+                Connection = new SqlConnection(@"Data Source=LAPTOP-7SFIPVKT; Initial Catalog =addressbook_practice; Integrated Security = True;");
+                using (this.Connection)
+                {
+                    string Query = @"SELECT addressbook.AddressBookId,addressbook.AddressBookName,persondetail.PersonId,persondetail.FirstName,persondetail.LastName,persondetail.Address,persondetail.City,persondetail.State,persondetail.Zip,
+                                    persondetail.PhoneNumber,persondetail.Email_ID,persontype.PersonType,persontype.PersonTypeId FROM
+                                    Address_Book AS addressbook 
+                                    INNER JOIN PersonDetail AS persondetail ON addressbook.AddressBookId = persondetail.AddressBookId AND (persondetail.City='Kanuru' OR persondetail.State='Andhra Pradesh')
+                                    INNER JOIN PersonsDetail_Type as persontypedetail On persontypedetail.PersonId = persondetail.PersonId
+                                    INNER JOIN PersonTypes AS persontype ON persontype.PersonTypeId = persontypedetail.PersonTypeId";
+                    SqlCommand cmd = new SqlCommand(Query, this.Connection);
+                    this.Connection.Open();
+                    SqlDataReader datareader = cmd.ExecuteReader();
+                    if (datareader.HasRows)
+                    {
+                        while (datareader.Read())
+                        {
+                            address_Book1.AddressBookId = datareader.GetInt32(0);
+                            address_Book1.AddressBookName = datareader.GetString(1);
+                            personDetail1.PersonId = datareader.GetInt32(2);
+                            personDetail1.FirstName = datareader.GetString(3);
+                            personDetail1.LastName = datareader.GetString(4);
+                            personDetail1.Address = datareader.GetString(5);
+                            personDetail1.City = datareader.GetString(6);
+                            personDetail1.State = datareader.GetString(7);
+                            personDetail1.Zip = datareader.GetInt32(8);
+                            personDetail1.PhoneNumber = datareader.GetInt64(9);
+                            personDetail1.Email_ID = datareader.GetString(10);
+                            personTypes1.PersonType = datareader.GetString(11);
+                            personTypes1.PersonTypeId = datareader.GetInt32(12);
+
+                            Console.WriteLine(personTypes1.PersonTypeId + " " +
+                                personTypes1.PersonType + " " + personDetail1.FirstName + " " +
+                                personDetail1.LastName + " " +
+                                personDetail1.Address + " " +
+                                personDetail1.City + " " +
+                                personDetail1.State + " " +
+                                personDetail1.Zip + " " +
+                                personDetail1.PhoneNumber + " " +
+                                personDetail1.Email_ID + " " + address_Book1.AddressBookId + " " +
+                                address_Book1.AddressBookName + " "
+                                );
+
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+        public void GetCountOfContactsByCity_PersonDetail()
+        {
+            try
+            {
+                Connection = new SqlConnection(@"Data Source=LAPTOP-7SFIPVKT; Initial Catalog =addressbook_practice; Integrated Security = True;");
+                using (this.Connection)
+                {
+                    string Query = @"Select Count(*) As count,City from PersonDetail Group By City;";
+                    SqlCommand cmd = new SqlCommand(Query, this.Connection);
+                    this.Connection.Open();
+                    SqlDataReader datareader = cmd.ExecuteReader();
+                    if (datareader.HasRows)
+                    {
+                        while (datareader.Read())
+                        {
+                            personDetail1.count = datareader.GetInt32(0);
+                            personDetail1.City = datareader.GetString(1);
+
+                            Console.WriteLine(
+                                personDetail1.count + " " +
+                                personDetail1.City
+                                );
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        public void GetContactsInAlphabeticalOrderOfFirstNameByJoins()
+        {
+
+            try
+            {
+                Connection = new SqlConnection(@"Data Source=LAPTOP-7SFIPVKT; Initial Catalog =addressbook_practice; Integrated Security = True;");
+                using (this.Connection)
+                {
+                    string Query = @"SELECT addressbook.AddressBookId,addressbook.AddressBookName,persondetail.PersonId,persondetail.FirstName,persondetail.LastName,persondetail.Address,persondetail.City,persondetail.State,persondetail.Zip,
+                                    persondetail.PhoneNumber,persondetail.Email_ID,persontype.PersonType,persontype.PersonTypeId FROM
+                                    Address_Book AS addressbook 
+                                    INNER JOIN PersonDetail AS persondetail ON addressbook.AddressBookId = persondetail.AddressBookId 
+                                    INNER JOIN PersonsDetail_Type as persontypedetail On persontypedetail.PersonId = persondetail.PersonId
+                                    INNER JOIN PersonTypes AS persontype ON persontype.PersonTypeId = persontypedetail.PersonTypeId Order By FirstName";
+                    SqlCommand cmd = new SqlCommand(Query, this.Connection);
+                    this.Connection.Open();
+                    SqlDataReader datareader = cmd.ExecuteReader();
+                    if (datareader.HasRows)
+                    {
+                        while (datareader.Read())
+                        {
+                            address_Book1.AddressBookId = datareader.GetInt32(0);
+                            address_Book1.AddressBookName = datareader.GetString(1);
+                            personDetail1.PersonId = datareader.GetInt32(2);
+                            personDetail1.FirstName = datareader.GetString(3);
+                            personDetail1.LastName = datareader.GetString(4);
+                            personDetail1.Address = datareader.GetString(5);
+                            personDetail1.City = datareader.GetString(6);
+                            personDetail1.State = datareader.GetString(7);
+                            personDetail1.Zip = datareader.GetInt32(8);
+                            personDetail1.PhoneNumber = datareader.GetInt64(9);
+                            personDetail1.Email_ID = datareader.GetString(10);
+                            personTypes1.PersonType = datareader.GetString(11);
+                            personTypes1.PersonTypeId = datareader.GetInt32(12);
+
+                            Console.WriteLine(personTypes1.PersonTypeId + " " + personDetail1.FirstName + " " +
+                                personTypes1.PersonType + " " +
+                                personDetail1.LastName + " " +
+                                personDetail1.Address + " " +
+                                personDetail1.City + " " +
+                                personDetail1.State + " " +
+                                personDetail1.Zip + " " +
+                                personDetail1.PhoneNumber + " " +
+                                personDetail1.Email_ID + " " + address_Book1.AddressBookId + " " +
+                                address_Book1.AddressBookName + " "
+                                );
+
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        public void GetCountOfContactsByTypeByJoins()
+        {
+            try
+            {
+                Connection = new SqlConnection(@"Data Source=LAPTOP-7SFIPVKT; Initial Catalog =addressbook_practice; Integrated Security = True;");
+                using (this.Connection)
+                {
+                    string Query2 = @"Select Count(a.PersonTypeId) As PersonCount,b.PersonType From 
+                                        PersonsDetail_Type As a 
+                                        INNER JOIN PersonTypes AS b ON b.PersonTypeId = a.PersonTypeId
+                                        INNER JOIN PersonDetail AS c ON c.PersonId = a.PersonId Group By a.PersonTypeId,b.PersonType;";
+                    SqlCommand cmd = new SqlCommand(Query2, this.Connection);
+                    this.Connection.Open();
+                    SqlDataReader datareader = cmd.ExecuteReader();
+                    if (datareader.HasRows)
+                    {
+                        while (datareader.Read())
+                        {
+                            personTypes1.PersonCount = datareader.GetInt32(0);
+                            personTypes1.PersonType = datareader.GetString(1);
+
+                            Console.WriteLine(personTypes1.PersonCount + " " + personTypes1.PersonType
+                                );
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
     }
 }

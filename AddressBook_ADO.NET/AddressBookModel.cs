@@ -45,10 +45,9 @@ namespace AddressBook_ADO.NET
     public class PersonDetail1
     {
         //Table Name - PersonDetail
-
+        public int count { get; set; }
         public int PersonId { get; set; }
         public int AddressBookId { get; set; }
-
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Address { get; set; }
@@ -65,6 +64,8 @@ namespace AddressBook_ADO.NET
         //Table Name - PersonTypes
         public int PersonTypeId { get; set; }
         public string PersonType { get; set; }
+        public int AddressBookCount { get; set; }
+        public int PersonCount { get; set; }
     }
     public class PersonsDetail_Type1
     {
