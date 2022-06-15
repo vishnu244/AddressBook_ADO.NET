@@ -6,11 +6,14 @@ Console.WriteLine("Welcomw to AddressBook ADO.NET!");
 
 AddressBookData addressBookData = new AddressBookData();
 AddressBookModel addressbook = new AddressBookModel();
+AddressBookRepo repo = new AddressBookRepo();
 
 
 Console.WriteLine("Select option\n1)Create AddrssBookServiceDatabase\n2)Create AddressBookTable\n3)Inserting Details to DataBase\n4)retreiv Details From dataBase\n6)Update Contacts\n7)" +
     "Delete Contacts from DataBase\n8)Count By City/State\n9)Retreive Details By State\n10)Retreive Details By City\n11)Sort Details By FirstName for given City\n12)Added columns AddressBook Name and Type to " +
-    "AddressBook Table\n13)Display AddressBook Details By AddressBookType\n14)Count Number of Contacts by AddressBoookType");
+    "AddressBook Table\n13)Display AddressBook Details By AddressBookType\n14)Count Number of Contacts by AddressBoookType\n15)Add a Person to Both Friend and family\n16)Retreiving Details From AddressBook \n17)Display of" +
+    " PersonDetail\n18)Display of Address_Book\n19)Display of PersonTypes\n20)Display of PersonsDetail_Type\n21)Display of Employee_Department");
+        
 int op = Convert.ToInt16(Console.ReadLine());
 switch (op)
 {
@@ -92,6 +95,37 @@ switch (op)
         addressBookData.AddContactAsFriendAndFamily();
         Console.WriteLine("Added Contact to both Family and Friend");
         break;
+    case 16:
+        Console.WriteLine("Display of AddressBook");
+        repo.GetAllContactOf_AddressBook();
+        Console.WriteLine("*********************************************************");
+        break;
+    case 17:
+        Console.WriteLine("Display of PersonDetail");
+        repo.GetAllContactOf_PersonDetail();
+        Console.WriteLine("*********************************************************");
+        break;
+    case 18:
+        Console.WriteLine("Display of Address_Book");
+        repo.GetAllContactOf_Address_Book();
+        Console.WriteLine("*********************************************************");
+        break;
+    case 19:
+        Console.WriteLine("Display of PersonTypes");
+        repo.GetAllContactOf_PersonTypes();
+        Console.WriteLine("*********************************************************");
+        break;
+    case 20:
+        Console.WriteLine("Display of PersonsDetail_Type");
+        repo.GetAllContactOf_PersonsDetail_Type();
+        Console.WriteLine("*********************************************************");
+        break;
+    case 21:
+        Console.WriteLine("Display of Employee_Department");
+        repo.GetAllContactOf_Employee_Department();
+        Console.WriteLine("*********************************************************");
+        break;
+
     default:
         Console.WriteLine("Please choose the correct option!");
         break;
